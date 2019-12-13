@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:micro_course/ui/CourseScreen.dart';
 import 'package:micro_course/ui/MineScreen.dart';
@@ -6,17 +8,17 @@ import 'package:micro_course/ui/StudyScreen.dart';
 class BottomNavigationWidget extends StatefulWidget{
   @override
   BottomNavigationWidgetState createState() {
-    // TODO: implement createState
     return BottomNavigationWidgetState();
   }
 
 }
 
 class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
-  final _bottomNavigationColor = Colors.blue;
+  ///当前选中tab位置
   int _currentIndex = 0;
   List<Widget> list = List();
-
+  var appBarTitles = ['选课',"学习","我的"];
+  var tabImages;
   @override
   void initState() {
     list
@@ -24,73 +26,58 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
      ..add(StudyScreen())
      ..add(MineScreen());
 
+    ///初始化底部导航栏选中和未选中的图片
+    tabImages = [
+      [getTabImage('images/icons/lesson_default.png'),getTabImage('images/icons/lesson_selected.png'),],
+      [getTabImage('images/icons/personal_default.png'),getTabImage('images/icons/personal_selected.png'),],
+      [getTabImage('images/icons/study_default.png'),getTabImage('images/icons/study_selected.png'),],
+    ];
+
     super.initState();
   }
+
+  ///获取底部导航栏的icon
+  Image getTabImage(path){
+    return new Image.asset(path,width: 25.0,height: 25.0,);
+  }
+
+  ///根据传入当前点击tab的位置curIndex确定当前icon样式是default还是selected,
+  Image getTabIcon(int curIndex){
+    if(curIndex == _currentIndex){
+      ///    当前tab被选中
+      return tabImages[curIndex][1];
+    }
+    return tabImages[curIndex][0];
+  }
+  ///获取底部tab的文本内容和颜色样式
+  Text getTabTitle(int curIndex){
+    if(curIndex == _currentIndex){
+      return new Text(
+        appBarTitles[curIndex],
+        style: TextStyle(fontSize: 13.0,color:Colors.black54),
+      );
+    }else{
+      return new Text(
+        appBarTitles[curIndex],
+        style: TextStyle(fontSize: 13.0,color: Colors.grey[500]),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: list[_currentIndex],
-//      bottomNavigationBar: BottomAppBar(
-//        child: Row(
-//          children: <Widget>[
-//            Column(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              children: <Widget>[
-//                Image.asset('images/icons/lesson_selected.png'),
-//                Text('选课')
-//              ],
-//            ),
-//            Column(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              children: <Widget>[
-//                Image.asset('images/icons/personal_default.png'),
-//                Text('学习')
-//              ],
-//
-//            ),
-//            Column(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              crossAxisAlignment: CrossAxisAlignment.center,
-//              children: <Widget>[
-//                Image.asset('images/icons/study_default.png'),
-//                Text('我的')
-//              ],
-//            ),
-//          ],
-//          mainAxisAlignment: MainAxisAlignment.spaceAround,
-//        ),
-//      ),
       bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-//                icon: Icon(
-//                  Icons.home,
-//                  color: _bottomNavigationColor,
-//                ),
-              icon:Image.asset('images/icons/lesson_selected.png',width: 20.0,height: 20.0,),
-              title: Text(
-                'Home',
-                style: TextStyle(color: _bottomNavigationColor),
-              )
+              icon: getTabIcon(0),title: getTabTitle(0),
             ),
             BottomNavigationBarItem(
-              icon: Image.asset('images/icons/personal_default.png',width: 20.0,height: 20.0,),
-              title: Text(
-                'Email',
-                style: TextStyle(color: _bottomNavigationColor),
-              ),
-
+              icon: getTabIcon(1),title: getTabTitle(1),
             ),
             BottomNavigationBarItem(
-                icon: Image.asset('images/icons/study_default.png',width: 20.0,height: 20.0,),
-                title: Text(
-                  'Airplay',
-                  style: TextStyle(color: _bottomNavigationColor),
-                )
-
+              icon: getTabIcon(2),title: getTabTitle(2),
             ),
           ],
         currentIndex: _currentIndex,
