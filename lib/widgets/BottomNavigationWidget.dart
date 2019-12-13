@@ -29,8 +29,8 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
     ///初始化底部导航栏选中和未选中的图片
     tabImages = [
       [getTabImage('images/icons/lesson_default.png'),getTabImage('images/icons/lesson_selected.png'),],
-      [getTabImage('images/icons/personal_default.png'),getTabImage('images/icons/personal_selected.png'),],
       [getTabImage('images/icons/study_default.png'),getTabImage('images/icons/study_selected.png'),],
+      [getTabImage('images/icons/personal_default.png'),getTabImage('images/icons/personal_selected.png'),],
     ];
 
     super.initState();

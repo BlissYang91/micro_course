@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeUtil{
   /// 当前的主题色
-  static Color currentThemeColor = Colors.redAccent;
+  static Color currentThemeColor = Colors.white;
 
   static ThemeData getThemeData(){
     return new ThemeData(

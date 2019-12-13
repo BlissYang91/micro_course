@@ -30,7 +30,6 @@ class MyAppState extends State<MyApp>{
       theme: ThemeUtil.getThemeData(),
       routes: Router.generateRoute(),
       home: BottomNavigationWidget(),
-//      home: HomeScreen(),
     );
   }
 
