@@ -26,4 +26,6 @@ flutter:
   assets:
     - images/
     - images/icons/
+    - images/dyy/
+    - images/test/
 
