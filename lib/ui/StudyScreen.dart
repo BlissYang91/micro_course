@@ -8,7 +8,7 @@ class StudyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(listCourse.length>0){
+    if (listCourse.length > 0) {
       listCourse.clear();
     }
     listCourse
@@ -84,13 +84,15 @@ class StudyScreen extends StatelessWidget {
                 height: 20,
                 fit: BoxFit.cover,
               ),
-              Padding(padding: EdgeInsets.only(left: 3),child: Text(
-                '0',
-                style: TextStyle(
-                  fontSize: 16,
+              Padding(
+                padding: EdgeInsets.only(left: 3),
+                child: Text(
+                  '0',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
-              ),),
-
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 25),
                 child: Row(
@@ -105,17 +107,18 @@ class StudyScreen extends StatelessWidget {
                             height: 20,
                             fit: BoxFit.cover,
                           ),
-                          Padding(padding: EdgeInsets.only(left: 3),child: Text(
-                            '45',
-                            style: TextStyle(
-                              fontSize: 16,
+                          Padding(
+                            padding: EdgeInsets.only(left: 3),
+                            child: Text(
+                              '45',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
                             ),
-                          ),)
-
+                          )
                         ],
                       ),
                     ),
-
                   ],
                 ),
               )
@@ -139,6 +142,9 @@ class StudyScreen extends StatelessWidget {
         'images/test/carousel_2.png',
       ];
       return SwiperDiy(swiperList: swiperList);
+    } else if (index == 3) {
+      /// 我的课程标题栏
+      return couseTitleWigdet;
     }
     MyCourseBean item = listCourse[index - 3];
     return ItemMyCourseList(
@@ -151,37 +157,68 @@ class StudyScreen extends StatelessWidget {
     height: 1,
     color: Colors.grey[300],
   );
+
+  /// 我的课程标题栏
+  Widget couseTitleWigdet = Container(
+    height: 45,
+    child: Padding(
+      padding: EdgeInsets.fromLTRB(15,10,15,10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            width: 4,
+            height: 20,
+            color: Colors.yellow,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Text(
+              '我的课程',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,color: Colors.black54),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
 }
 
 /// 轮播图
-class SwiperDiy extends StatelessWidget{
+class SwiperDiy extends StatelessWidget {
   final List<String> swiperList;
 
-  SwiperDiy({Key key,this.swiperList}):super(key:key);
+  SwiperDiy({Key key, this.swiperList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(padding: EdgeInsets.fromLTRB(15,10,15,10),child:  Container(
-      height: 90,
-      child: Swiper(
-        itemCount: swiperList.length,
-        pagination: SwiperPagination(
-          builder: DotSwiperPaginationBuilder(
-///          设置指示器颜色
-            color: Colors.white,
-            activeColor: Colors.blueAccent,
+    return Padding(
+      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      child: Container(
+        height: 90,
+        child: Swiper(
+          itemCount: swiperList.length,
+          pagination: SwiperPagination(
+            builder: DotSwiperPaginationBuilder(
+              ///          设置指示器颜色
+              color: Colors.white,
+              activeColor: Colors.blueAccent,
+            ),
           ),
+          autoplay: true,
+          onTap: (index) {
+            return Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("点击了:$index")));
+          },
+          itemBuilder: (BuildContext context, int index) {
+            return Image.asset(
+              swiperList[index],
+              fit: BoxFit.fill,
+            );
+          },
         ),
-        autoplay: true,
-        onTap: (index){
-          return Scaffold.of(context).showSnackBar(SnackBar(content: Text("点击了:$index")));
-        },
-        itemBuilder: (BuildContext context,int index){
-          return Image.asset(swiperList[index],fit: BoxFit.fill,);
-        },
       ),
-    ),);
-
+    );
   }
-
 }
