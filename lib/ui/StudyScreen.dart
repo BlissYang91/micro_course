@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:micro_course/model/MyCourseBean.dart';
 import 'package:micro_course/widgets/ItemMyCourseList.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class StudyScreen extends StatelessWidget {
   List<MyCourseBean> listCourse = List();
@@ -11,10 +12,10 @@ class StudyScreen extends StatelessWidget {
       listCourse.clear();
     }
     listCourse
-      ..add(MyCourseBean('images/test/learning1', '5-6年级'))
-      ..add(MyCourseBean('images/test/learning2', '4-5年级'))
-      ..add(MyCourseBean('images/test/learning3', '1-2年级'))
-      ..add(MyCourseBean('images/test/learning1', '2-3年级'));
+      ..add(MyCourseBean('images/test/learning1.png', '5-6年级'))
+      ..add(MyCourseBean('images/test/learning2.png', '4-5年级'))
+      ..add(MyCourseBean('images/test/learning3.png', '1-2年级'))
+      ..add(MyCourseBean('images/test/learning1.png', '2-3年级'));
     return Scaffold(
       appBar: AppBar(
         title: Text('学习'),
@@ -123,12 +124,6 @@ class StudyScreen extends StatelessWidget {
         ],
       ));
 
-  Widget carouselWidget = Row(
-    children: <Widget>[
-      Text('轮播'),
-    ],
-  );
-
   ///ListView 中每一行的视图
   Widget itemView(BuildContext context, int index) {
     if (index == 0) {
@@ -139,7 +134,11 @@ class StudyScreen extends StatelessWidget {
       return dividerWidget;
     } else if (index == 2) {
       ///轮播图
-      return carouselWidget;
+      final List<String> swiperList = [
+        'images/test/carousel_1.png',
+        'images/test/carousel_2.png',
+      ];
+      return SwiperDiy(swiperList: swiperList);
     }
     MyCourseBean item = listCourse[index - 3];
     return ItemMyCourseList(
@@ -152,4 +151,37 @@ class StudyScreen extends StatelessWidget {
     height: 1,
     color: Colors.grey[300],
   );
+}
+
+/// 轮播图
+class SwiperDiy extends StatelessWidget{
+  final List<String> swiperList;
+
+  SwiperDiy({Key key,this.swiperList}):super(key:key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(padding: EdgeInsets.fromLTRB(15,10,15,10),child:  Container(
+      height: 90,
+      child: Swiper(
+        itemCount: swiperList.length,
+        pagination: SwiperPagination(
+          builder: DotSwiperPaginationBuilder(
+///          设置指示器颜色
+            color: Colors.white,
+            activeColor: Colors.blueAccent,
+          ),
+        ),
+        autoplay: true,
+        onTap: (index){
+          return Scaffold.of(context).showSnackBar(SnackBar(content: Text("点击了:$index")));
+        },
+        itemBuilder: (BuildContext context,int index){
+          return Image.asset(swiperList[index],fit: BoxFit.fill,);
+        },
+      ),
+    ),);
+
+  }
+
 }
