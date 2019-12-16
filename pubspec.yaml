@@ -27,5 +27,6 @@ flutter:
     - images/
     - images/icons/
     - images/dyy/
+    - images/distribution/
     - images/test/
 
