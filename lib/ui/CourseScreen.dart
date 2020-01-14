@@ -159,11 +159,15 @@ class _LoginState extends State<CourseScreen>{
   void login(Map<String, String> params) {
     DioManger.getInstance().post(
         APIConfig.LOGIN,
-        params,
-            (data){
+        params, (data){
+          setState(() {
+            ///更新UI
+          });
           print("登录成功："+data.toString());
-        },
-            (error){
+        }, (error){
+          setState(() {
+
+          });
           print("登录异常："+error.toString());
         }
     );
