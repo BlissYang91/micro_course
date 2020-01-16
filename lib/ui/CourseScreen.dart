@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:micro_course/bean/LoginMsg.dart';
+import 'package:micro_course/ui/StudyScreen.dart';
 import 'package:micro_course/utils/HexColor.dart';
 import 'package:micro_course/http/DioManger.dart';
 import 'package:micro_course/http/APIConfig.dart';
+import 'package:micro_course/widgets/BottomNavigationWidget.dart';
+import 'package:micro_course/common/eventbus.dart';
 class CourseScreen extends StatefulWidget {
 
 
@@ -120,7 +126,7 @@ class _LoginState extends State<CourseScreen>{
             "phone":phoneController.text,
             "password":pwdController.text,
           };
-          login(params);
+          login(params,context);
 
 //        Scaffold.of(context).showSnackBar(SnackBar(
 //          content: Text('点击登录'+phoneController.text),
@@ -156,14 +162,24 @@ class _LoginState extends State<CourseScreen>{
     );
   }
 
-  void login(Map<String, String> params) {
+  void login(Map<String, String> params,BuildContext context) {
     DioManger.getInstance().post(
         APIConfig.LOGIN,
         params, (data){
           setState(() {
+            print("登录成功："+data.toString());
+            Map<String, dynamic> jsonMsg = json.decode(data.toString());
+//            LoginMsg loginMsg = LoginMsg.fromJson(jsonMsg);
             ///更新UI
+//            Navigator.pushReplacement(context, MaterialPageRoute(
+//                builder: (context) => BottomNavigationWidget(),
+//                settings: RouteSettings(
+//                arguments:jsonMsg,
+//               ),
+//            ));
+            bus.emit('login',jsonMsg);
           });
-          print("登录成功："+data.toString());
+
         }, (error){
           setState(() {
 

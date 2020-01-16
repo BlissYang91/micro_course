@@ -85,13 +85,14 @@ class DioManger{
         print('请求结果: ' + response.toString());
       }
     }
-    String dataStr = json.encode(response.data);
-    Map<String, dynamic> dataMap = json.decode(dataStr);
-    if (dataMap == null || dataMap['state'] == 0) {
-      _error(errorCallBack, '错误码：' + dataMap['errorCode'].toString() + '，' + response.data.toString());
-    }else if (successCallBack != null) {
-      successCallBack(dataMap);
-    }
+//    String dataStr = json.encode(response.data);
+//    Map<String, dynamic> dataMap = json.decode(dataStr);
+//    if (dataMap == null || dataMap['state'] == 0) {
+//      _error(errorCallBack, '错误码：' + dataMap['errorCode'].toString() + '，' + response.data.toString());
+//    }else if (successCallBack != null) {
+//      successCallBack(dataMap);
+//    }
+    successCallBack(response.toString());
 
   }
   _error(Function errorCallBack, String error) {

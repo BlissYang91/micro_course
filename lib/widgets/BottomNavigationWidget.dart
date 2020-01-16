@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:micro_course/ui/CourseScreen.dart';
 import 'package:micro_course/ui/MineScreen.dart';
 import 'package:micro_course/ui/StudyScreen.dart';
-
+import 'package:micro_course/common/eventbus.dart';
 class BottomNavigationWidget extends StatefulWidget{
   @override
   BottomNavigationWidgetState createState() {
@@ -14,8 +14,10 @@ class BottomNavigationWidget extends StatefulWidget{
 }
 
 class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
+
   ///当前选中tab位置
   int _currentIndex = 0;
+  int pushIndex = 0;
   List<Widget> list = List();
   var appBarTitles = ['选课',"学习","我的"];
   var tabImages;
@@ -35,7 +37,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
 
     super.initState();
   }
-
   ///获取底部导航栏的icon
   Image getTabImage(path){
     return new Image.asset(path,width: 25.0,height: 25.0,);
@@ -66,6 +67,13 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
 
   @override
   Widget build(BuildContext context) {
+    ///总线 监听登录信息的回调
+    bus.on('login', (loginMsg){
+      print("获取登录后用户信息：$loginMsg");
+      setState(() {
+        _currentIndex = 1;
+      });
+    });
     return Scaffold(
       body: list[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

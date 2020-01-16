@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:micro_course/bean/LoginMsg.dart';
 import 'package:micro_course/model/MyCourseBean.dart';
 import 'package:micro_course/widgets/ItemMyCourseList.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -8,6 +9,11 @@ class StudyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+//    final  Map<String, dynamic> msg = ModalRoute.of(context).settings.arguments;
+//    if(msg != null){
+//      print("获取登录后用户信息：$msg");
+//    }
+
     if (listCourse.length > 0) {
       listCourse.clear();
     }
