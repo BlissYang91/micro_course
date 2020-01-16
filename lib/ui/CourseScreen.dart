@@ -169,7 +169,8 @@ class _LoginState extends State<CourseScreen>{
           setState(() {
             print("登录成功："+data.toString());
             Map<String, dynamic> jsonMsg = json.decode(data.toString());
-//            LoginMsg loginMsg = LoginMsg.fromJson(jsonMsg);
+            LoginMsg loginMsg = LoginMsg.fromJson(jsonMsg);
+            print("json转实体类："+loginMsg.toString());
             ///更新UI
 //            Navigator.pushReplacement(context, MaterialPageRoute(
 //                builder: (context) => BottomNavigationWidget(),
@@ -177,7 +178,8 @@ class _LoginState extends State<CourseScreen>{
 //                arguments:jsonMsg,
 //               ),
 //            ));
-            bus.emit('login',jsonMsg);
+          /// 登录成功发送全局事件
+            bus.emit('login',loginMsg);
           });
 
         }, (error){

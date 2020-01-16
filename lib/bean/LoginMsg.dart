@@ -45,6 +45,12 @@ class LoginMsg {
     return data;
   }
 
+  @override
+  String toString() {
+    return 'LoginMsg{message: $message, success: $success, code: $code, timestamp: $timestamp, data: $data}';
+  }
+
+
 }
 
 class DataBean {
@@ -79,4 +85,10 @@ class DataBean {
     data['global_id'] = this.globalId;
     return data;
   }
+
+  @override
+  String toString() {
+    return 'DataBean{avatar: $avatar, wxName: $wxName, bindPhone: $bindPhone, openId: $openId, loginToken: $loginToken, studentId: $studentId, globalId: $globalId}';
+  }
+
 }
