@@ -24,7 +24,13 @@ class StudyScreen extends StatelessWidget {
       ..add(MyCourseBean('images/test/learning1.png', '2-3年级'));
     return Scaffold(
       appBar: AppBar(
-        title: Text('学习'),
+        title: Text(
+          '学习',
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.normal,
+              color: Colors.black87),
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -168,7 +174,7 @@ class StudyScreen extends StatelessWidget {
   Widget couseTitleWigdet = Container(
     height: 45,
     child: Padding(
-      padding: EdgeInsets.fromLTRB(15,10,15,10),
+      padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,7 +188,10 @@ class StudyScreen extends StatelessWidget {
             padding: EdgeInsets.only(left: 5),
             child: Text(
               '我的课程',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700,color: Colors.black54),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black54),
             ),
           )
         ],

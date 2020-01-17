@@ -33,8 +33,8 @@ class _LoginState extends State<CourseScreen> {
             '选课',
             style: TextStyle(
                 fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54),
+                fontWeight: FontWeight.normal,
+                color: Colors.black87),
           ),
           centerTitle: true,
           actions: <Widget>[
