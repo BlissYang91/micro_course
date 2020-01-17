@@ -15,26 +15,30 @@ class DioManger{
 
   DioManger(){
 //    dio.options.headers = {
-//
+//    默认headers
 //    };
     dio.options.baseUrl = "https://keep-portal.kuaizaixuetang.com/";
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 3000;
   }
 
-  get(String url,Map params,Function successCallBack,Function errorCallBack) async{
-   _requestHttp(url,successCallBack,'get',params,errorCallBack);
+  get(String url,Map params,Map<String,String> headers,Function successCallBack,Function errorCallBack) async{
+   _requestHttp(url,headers,successCallBack,'get',params,errorCallBack);
   }
 
-  post(String url,params,Function successCallBack,Function errorCallBack) async{
-   _requestHttp(url, successCallBack,'post',params,errorCallBack);
+  post(String url,params,Map<String,String> headers,Function successCallBack,Function errorCallBack) async{
+   _requestHttp(url, headers,successCallBack,'post',params,errorCallBack);
   }
 
-  _requestHttp(String url ,Function successCallBack,[
+  _requestHttp(String url ,Map<String,String> headers,Function successCallBack,[
     String method, Map params, Function errorCallBack
   ]) async{
     Response response;
     try{
+      if(headers != null){
+        ///显示指定Map的限定类型 动态添加headers
+        dio.options.headers.addAll(new Map<String,String>.from(headers));
+      }
       if (method == 'get') {
         if (params != null && params.isNotEmpty) {
           response = await dio.get(url, queryParameters: params);

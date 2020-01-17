@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:micro_course/bean/LoginMsg.dart';
 import 'package:micro_course/ui/StudyScreen.dart';
@@ -165,7 +167,7 @@ class _LoginState extends State<CourseScreen>{
   void login(Map<String, String> params,BuildContext context) {
     DioManger.getInstance().post(
         APIConfig.LOGIN,
-        params, (data){
+        params,null, (data){
           setState(() {
             print("登录成功："+data.toString());
             Map<String, dynamic> jsonMsg = json.decode(data.toString());
@@ -178,8 +180,7 @@ class _LoginState extends State<CourseScreen>{
 //                arguments:jsonMsg,
 //               ),
 //            ));
-          /// 登录成功发送全局事件
-            bus.emit('login',loginMsg);
+           getUserCourseList(loginMsg);
           });
 
         }, (error){
@@ -189,5 +190,25 @@ class _LoginState extends State<CourseScreen>{
           print("登录异常："+error.toString());
         }
     );
+  }
+  ///获取用户课程信息
+  void getUserCourseList(LoginMsg loginMsg) {
+    ///显示指定Map的限定类型
+    Map<String,String> parms = {"student_id":loginMsg.data.studentId.toString()};
+    Map<String,String> headers = {"token":loginMsg.data.loginToken.toString()};
+    DioManger.getInstance().get(
+        APIConfig.GET_COURSE_LIST,
+        parms,
+        headers,
+        (data){
+          print("获取课程列表成功："+data.toString());
+          /// 登录成功发送全局事件
+            bus.emit('login',loginMsg);
+        },
+        (error){
+          print("获取课程列表失败："+error.toString());
+        }
+    );
+
   }
 }
