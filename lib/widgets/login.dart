@@ -8,14 +8,14 @@ import 'package:micro_course/http/APIConfig.dart';
 import 'package:micro_course/common/eventbus.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
-class CourseScreen extends StatefulWidget {
+class LoginWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _LoginState();
   }
 }
 
-class _LoginState extends State<CourseScreen> {
+class _LoginState extends State<LoginWidget> {
   final phoneController = TextEditingController();
   final pwdController = TextEditingController();
 
@@ -23,54 +23,30 @@ class _LoginState extends State<CourseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomPadding: false,
-        appBar: AppBar(
-          title: Text(
-            '选课',
-            style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Colors.black87),
-          ),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(
-                  Icons.more_horiz,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text('点击分享')));
-                })
-          ],
-        ),
-        body: ListView(
-          shrinkWrap: true,///根据子组件的总长度来设置 ListView 的长度
-          children: <Widget>[
-            Container(
-                alignment: AlignmentDirectional.center,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(30.0, 32.0, 30.0, 0),
-                  child: Column(
-                    children: <Widget>[
-                      Image(
-                        image: AssetImage("images/course_logo.png"),
-                        width: 139,
-                        height: 38,
-                        fit: BoxFit.contain,
-                      ),
-                      inputPhone(context),
 
-                      inputPassword(context),
-
-                      loginWidget(context),
-
-                      loginByWX(context),
-                    ],
+        body: Container(
+            alignment: AlignmentDirectional.center,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(30.0, 32.0, 30.0, 0),
+              child: Column(
+                children: <Widget>[
+                  Image(
+                    image: AssetImage("images/course_logo.png"),
+                    width: 139,
+                    height: 38,
+                    fit: BoxFit.contain,
                   ),
-                )),
-          ],
-        ));
+                  inputPhone(context),
+
+                  inputPassword(context),
+
+                  loginWidget(context),
+
+                  loginByWX(context),
+                ],
+              ),
+            )),
+    );
   }
 
   ///手机号模块
@@ -220,14 +196,14 @@ class _LoginState extends State<CourseScreen> {
       "token": loginMsg.data.loginToken.toString()
     };
     DioManger.getInstance().get(APIConfig.GET_COURSE_LIST, parms, headers,
-        (data) {
-      print("获取课程列表成功：" + data.toString());
+            (data) {
+          print("获取课程列表成功：" + data.toString());
 
-      /// 登录成功发送全局事件
-      bus.emit('login', loginMsg);
-    }, (error) {
-      print("获取课程列表失败：" + error.toString());
-    });
+          /// 登录成功发送全局事件
+          bus.emit('login', loginMsg);
+        }, (error) {
+          print("获取课程列表失败：" + error.toString());
+        });
   }
 
   ///微信登录
