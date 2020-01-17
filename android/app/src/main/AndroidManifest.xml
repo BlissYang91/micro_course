@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="micro_course"
+        android:label="快哉小课"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

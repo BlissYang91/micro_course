@@ -27,9 +27,9 @@ class ItemMyCourseListState extends State<ItemMyCourseList> {
       child: Stack(
         children: <Widget>[
           Container(
-              color: Colors.grey[300],
+              color: Colors.grey[150],
               child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 15, 15, 0),
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 0),
 
                 ///圆角卡片布局
                 child: SizedBox(
@@ -49,7 +49,7 @@ class ItemMyCourseListState extends State<ItemMyCourseList> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(item.imgUrl),
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.fill,
                                 ),
                                 borderRadius: BorderRadius.vertical(
                                   ///顶部圆角
@@ -154,7 +154,7 @@ class ItemMyCourseListState extends State<ItemMyCourseList> {
                 ),
               )),
           Padding(
-            padding: EdgeInsets.only(top: 13, right: 14),
+            padding: EdgeInsets.only(top: 2, right: 14),
             child: Align(
               alignment: Alignment.topRight,
               child: Container(
