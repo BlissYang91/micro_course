@@ -68,12 +68,12 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>{
   @override
   Widget build(BuildContext context) {
     ///总线 监听登录信息的回调
-    bus.on('login', (arg){
-      print("获取登录后用户信息：$arg");
-      setState(() {
-        _currentIndex = 1;
-      });
-    });
+//    bus.on('login', (arg){
+//      print("获取登录后用户信息：$arg");
+//      setState(() {
+//        _currentIndex = 1;
+//      });
+//    });
     return Scaffold(
       body: list[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(

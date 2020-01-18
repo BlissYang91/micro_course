@@ -21,10 +21,8 @@ class _LoginState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomPadding: false,
-
-        body: Container(
+    return Container(
+        child: Container(
             alignment: AlignmentDirectional.center,
             child: Padding(
               padding: EdgeInsets.fromLTRB(30.0, 32.0, 30.0, 0),
@@ -61,7 +59,7 @@ class _LoginState extends State<LoginWidget> {
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(15)),
         child: TextField(
-          autofocus: true,
+//          autofocus: true,
           controller: phoneController,
           decoration: InputDecoration(
             hintText: "请输入手机号",
@@ -88,7 +86,7 @@ class _LoginState extends State<LoginWidget> {
         decoration: BoxDecoration(
             color: Colors.grey[200], borderRadius: BorderRadius.circular(15)),
         child: TextField(
-          autofocus: true,
+//          autofocus: true,
           controller: pwdController,
           decoration: InputDecoration(
             hintText: "请输入密码",
