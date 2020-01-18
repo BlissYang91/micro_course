@@ -1,13 +1,21 @@
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:micro_course/bean/LoginMsg.dart';
+import 'package:micro_course/bean/user.dart';
+import 'package:micro_course/common/Common.dart';
 import 'package:micro_course/common/eventbus.dart';
+import 'package:micro_course/http/APIConfig.dart';
+import 'package:micro_course/http/DioManger.dart';
 import 'package:micro_course/utils/HexColor.dart';
 import 'package:micro_course/widgets/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MineScreen extends StatefulWidget {
   @override
@@ -20,12 +28,20 @@ class _MineScreenState extends State<MineScreen> {
   bool need_login = true;
 
   @override
+  void initState() {
+    print("init执行");
+    getToken();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     ///总线 监听登录信息的回调
-    bus.on('login', (arg){
+    bus.on('login', (arg) {
       print("我的页面 获取登录后用户信息：$arg");
       setState(() {
         need_login = false;
+
         ///隐藏键盘
         FocusScope.of(context).requestFocus(FocusNode());
       });
@@ -75,6 +91,7 @@ class _MineScreenState extends State<MineScreen> {
           dividerWidget,
           buildListTile(context, '我的券包'),
           buildMultItem(context, '兑换好礼', 'images/dyy/icon_coin.png', 0),
+          logoutWidget(context),
         ],
       ),
     );
@@ -176,6 +193,29 @@ class _MineScreenState extends State<MineScreen> {
     );
   }
 
+  ///退出组件
+  Widget logoutWidget(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        print("退出登录");
+        need_login = true;
+        SpUtil.clear();
+      },
+      child: Container(
+        alignment: AlignmentDirectional.center,
+        padding: EdgeInsets.all(10),
+        child: Text(
+          "退出",
+          style: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: Colors.black54,
+            fontSize: 18,
+          ),
+        ),
+      ),
+    );
+  }
+
   ///头部组件
   Widget headerWidget = Container(
     height: 205,
@@ -223,11 +263,54 @@ class _MineScreenState extends State<MineScreen> {
 
   Widget loginMine(BuildContext context) {
     return Offstage(
-      offstage: !need_login,//false表示显示当前widget
-      child:Container(
+      offstage: !need_login, //false表示显示当前widget
+      child: Container(
         alignment: AlignmentDirectional.center,
         child: LoginWidget(),
       ),
     );
+  }
+
+  void getToken() async {
+//    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+//    SpUtil.clear();
+    LoginMsg loginMsg =
+        SpUtil.getObj(Constants.keyUserModel, (v) => LoginMsg.fromJson(v));
+    print("获取本地用户信息：" + loginMsg.toString());
+    if(loginMsg != null){
+
+      setState(() {
+        need_login = false;
+      });
+
+      getUserInfo(loginMsg);
+    }
+
+  }
+
+  /**
+   * 获取平台用户信息
+   */
+  void getUserInfo(LoginMsg loginMsg)  async{
+    print("取值测试："+ loginMsg.data.studentId.toString());
+    ///显示指定Map的限定类型
+    Map<String, String> parms = {
+      "student_id": loginMsg.data.studentId.toString()
+    };
+    FormData formData = FormData.fromMap(parms);
+
+    Map<String, String> headers = {
+      "token": loginMsg.data.loginToken.toString()
+    };
+    var res = await DioManger.getInstance().dio.post(APIConfig.GET_USER_INFO,
+        data: formData, queryParameters: headers);
+    print("res == " + res.toString());
+    User user = User.fromJson(json.decode(res.toString()));
+    print("user == " + user.toString());
+    if (user.code == 0) {
+      setState(() {
+        need_login = false;
+      });
+    }
   }
 }

@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:micro_course/bean/LoginMsg.dart';
+import 'package:micro_course/common/Common.dart';
 import 'package:micro_course/utils/HexColor.dart';
 import 'package:micro_course/http/DioManger.dart';
 import 'package:micro_course/http/APIConfig.dart';
 import 'package:micro_course/common/eventbus.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginWidget extends StatefulWidget {
   @override
@@ -176,6 +179,9 @@ class _LoginState extends State<LoginWidget> {
 //                arguments:jsonMsg,
 //               ),
 //            ));
+        FocusScope.of(context).requestFocus(FocusNode());
+        /// 保存用户token
+        saveUserToken(loginMsg);
         getUserCourseList(loginMsg);
       });
     }, (error) {
@@ -196,7 +202,6 @@ class _LoginState extends State<LoginWidget> {
     DioManger.getInstance().get(APIConfig.GET_COURSE_LIST, parms, headers,
             (data) {
           print("获取课程列表成功：" + data.toString());
-
           /// 登录成功发送全局事件
           bus.emit('login', loginMsg);
         }, (error) {
@@ -216,5 +221,16 @@ class _LoginState extends State<LoginWidget> {
     }).catchError((e) {
       print('weChatLogin  e  $e');
     });
+  }
+
+  ///登录成功保存用户token到本地
+  void saveUserToken(LoginMsg loginMsg) async{
+//   SharedPreferences preferences = await SharedPreferences.getInstance();
+//   await preferences.setString("userMsg", loginMsg.data.loginToken);
+    SpUtil.putObject(Constants.keyUserModel, loginMsg);
+//    LoginMsg loginMsg1 = SpUtil.getObj(Constants.keyUserModel, (v)=>LoginMsg.fromJson(v));
+//   print("用户本地token == ${loginMsg1.toString()}");
+//   LogUtil.e("用户本地token日志：${loginMsg1.toString()}");
+
   }
 }

@@ -14,9 +14,9 @@ class DioManger{
   Dio dio = new Dio();
 
   DioManger(){
-//    dio.options.headers = {
-//    默认headers
-//    };
+    dio.options.headers = {
+      "content-type":"application/json;charset=UTF-8"
+    };
     dio.options.baseUrl = "https://keep-portal.kuaizaixuetang.com/";
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 3000;
@@ -31,7 +31,7 @@ class DioManger{
   }
 
   _requestHttp(String url ,Map<String,String> headers,Function successCallBack,[
-    String method, Map params, Function errorCallBack
+    String method, params, Function errorCallBack
   ]) async{
     Response response;
     try{
